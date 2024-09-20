@@ -1,0 +1,16 @@
+table {
+    width: 100%;
+    margin: 20px 0;
+  }
+  
+  button {
+    background-color: lightblue;
+    border: none;
+    padding: 5px 10px;
+    cursor: pointer;
+  }
+  
+  button:hover {
+    background-color: deepskyblue;
+  }
+  

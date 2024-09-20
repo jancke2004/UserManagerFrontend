@@ -1,0 +1,44 @@
+<form [formGroup]="addUserForm" (ngSubmit)="onSubmit()">
+  <div>
+    <label for="name">Name</label>
+    <input id="name" formControlName="name" />
+    <!-- Name validation errors -->
+    <div *ngIf="name?.invalid && (name?.touched || name?.dirty)">
+      <small *ngIf="name?.errors?.['required']">Name is required.</small>
+      <small *ngIf="name?.errors?.['minlength']">Name must be at least 3 characters long.</small>
+      <small *ngIf="name?.errors?.['maxlength']">Name cannot exceed 100 characters.</small>
+    </div>
+  </div>
+
+  <div>
+    <label for="contactNo">Contact Number</label>
+    <input id="contactNo" formControlName="contactNo" />
+    <!-- Contact number validation errors -->
+    <div *ngIf="contactNo?.invalid && (contactNo?.touched || contactNo?.dirty)">
+      <small *ngIf="contactNo?.errors?.['required']">Contact number is required.</small>
+      <small *ngIf="contactNo?.errors?.['pattern']">Contact number must contain only digits.</small>
+      <small *ngIf="contactNo?.errors?.['minlength']">Contact number must be at least 10 digits long.</small>
+      <small *ngIf="contactNo?.errors?.['maxlength']">Contact number cannot exceed 15 digits.</small>
+    </div>
+  </div>
+
+  <div>
+    <label for="addedBy">Added By</label>
+    <input id="addedBy" formControlName="addedBy" />
+    <!-- AddedBy validation errors  -->
+    <div *ngIf="addedBy?.invalid && (addedBy?.touched || addedBy?.dirty)">
+      <small *ngIf="addedBy?.errors?.['required']">Added By is required.</small>
+    </div>
+  </div>
+
+  <div>
+    <label for="updatedBy">Updated By</label>
+    <input id="updatedBy" formControlName="updatedBy" />
+    <!-- UpdatedBy validation errors  -->
+    <div *ngIf="updatedBy?.invalid && (updatedBy?.touched || updatedBy?.dirty)">
+      <small *ngIf="updatedBy?.errors?.['required']">Updated By is required.</small>
+    </div>
+  </div>
+
+  <button type="submit" [disabled]="addUserForm.invalid">Add User</button>
+</form>

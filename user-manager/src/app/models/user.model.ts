@@ -2,7 +2,9 @@
 export interface User {
     id: number;
     name: string;
-    email: string;
-    // Add other user properties here
+    contactNo: string;
+    added_By: string; 
+    updated_By: string; 
+ 
   }
   

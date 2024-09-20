@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpParams } from '@angular/common/http';
-import { Observable } from 'rxjs';
+import { HttpClient, HttpErrorResponse, HttpParams } from '@angular/common/http';
+import { catchError, empty, Observable, throwError } from 'rxjs';
 import { User } from './models/user.model';
 
 
@@ -19,12 +19,18 @@ export class ApiService {
   }
 
   public getUser(id: number): Observable<User> {
+    const params = new HttpParams().set('id', id.toString());
     return this.http.get<User>(`${this.apiUrl}/GetUser`, { params: { id: id.toString() } });
   }
 
-  public addUser(user: User): Observable<string> {
-    return this.http.post<string>(`${this.apiUrl}/AddUser`, user);
+  public addUser(user: User): Observable<any> {
+    debugger;
+    return this.http.post<any>(`${this.apiUrl}/AddUser`, user).pipe(
+      catchError(this.handleError)
+    );
   }
+  
+  
 
   public updateUser(user: User): Observable<string> {
     return this.http.put<string>(`${this.apiUrl}/UpdateUser`, user);
@@ -33,4 +39,19 @@ export class ApiService {
   public deleteUser(user: User): Observable<string> {
     return this.http.request<string>('DELETE', `${this.apiUrl}/DeleteUser`, { body: user });
   }
+
+  handleError(error: HttpErrorResponse) {
+    console.error('An error occurred:', error.message); // Log the detailed error message
+    let errorMessage = 'An unknown error occurred!';
+    if (error.error instanceof ErrorEvent) {
+      // Client-side or network error
+      errorMessage = `Error: ${error.error.message}`;
+    } else {
+      // Backend returned an unsuccessful response code
+      errorMessage = `Error ${error.status}: ${error.error.message || 'Server error'}`;
+    }
+    return throwError(() => new Error(errorMessage));
+  }
+  
+  
 }

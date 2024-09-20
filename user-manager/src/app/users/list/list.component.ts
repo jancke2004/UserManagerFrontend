@@ -2,55 +2,61 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import {MatTableModule} from '@angular/material/table';
 import { UsersModule } from '../users.module';
 import { ApiService } from '../../api.service';
+import { User } from '../../models/user.model';
+import { Subscription } from 'rxjs';
+import { MatButtonModule } from '@angular/material/button';
+import { Router } from '@angular/router';
 
-export interface PeriodicElement {
-  name: string;
-  position: number;
-  weight: number;
-  symbol: string;
-}
 
-const ELEMENT_DATA: PeriodicElement[] = [
-  {position: 1, name: 'Hydrogen', weight: 1.0079, symbol: 'H'},
-  {position: 2, name: 'Helium', weight: 4.0026, symbol: 'He'},
-  {position: 3, name: 'Lithium', weight: 6.941, symbol: 'Li'},
-  {position: 4, name: 'Beryllium', weight: 9.0122, symbol: 'Be'},
-  {position: 5, name: 'Boron', weight: 10.811, symbol: 'B'},
-  {position: 6, name: 'Carbon', weight: 12.0107, symbol: 'C'},
-  {position: 7, name: 'Nitrogen', weight: 14.0067, symbol: 'N'},
-  {position: 8, name: 'Oxygen', weight: 15.9994, symbol: 'O'},
-  {position: 9, name: 'Fluorine', weight: 18.9984, symbol: 'F'},
-  {position: 10, name: 'Neon', weight: 20.1797, symbol: 'Ne'},
+const ELEMENT_DATA: User[] = [
+ 
 ];
 
 @Component({
   selector: 'app-list',
   standalone: true,
-  imports: [MatTableModule, UsersModule],
+  imports: [MatTableModule, UsersModule, MatButtonModule],
   templateUrl: './list.component.html',
   styleUrl: './list.component.css',
   providers: [ApiService],
 })
 
 export class ListComponent implements OnInit, OnDestroy {
-  displayedColumns: string[] = ['position', 'name', 'weight', 'symbol'];
-  dataSource = ELEMENT_DATA; 
+  displayedColumns: string[] = ['id', 'name', 'contactNumber', 'actions']; // Adjusted the name 'contact Number' to be camelCase
+  dataSource: User[] = [];  // Updated to User array for actual data
+  
 
-  constructor(
-    private userService: ApiService,
-   
-  ) {}
- 
+  constructor(private userService: ApiService,private router: Router) {}
+
   ngOnInit(): void {
-   
-    let user = this.userService.getUser(5).subscribe((value)=>{
-      debugger;
-      alert (value.id);
-      return value;
+    // Fetch the list of users on initialization
+    this.userService.getUserList().subscribe(
+      (users: User[]) => {
+        this.dataSource = users;  // Set the data for the table
+      },
+      (error) => {
+        console.error('Error fetching users', error);
+      }
+    );
+  }
+
+  deleteUser(user: User): void {
+    this.userService.deleteUser(user).subscribe({
+      next: (response) => {
+        alert(response);  
+        this.dataSource = this.dataSource.filter(u => u.id !== user.id);  // Remove the deleted user from the dataSource
+      },
+      error: (error) => {
+        console.error('Error deleting user', error);
+      }
     });
-   
-    
-  } 
+  }
+  
+
+  goToAdd() {
+    debugger;
+    this.router.navigate(['/add-user']);  // go to the 'add' component
+  }
 
   ngOnDestroy(): void {
     
