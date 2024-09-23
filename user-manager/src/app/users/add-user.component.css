@@ -35,4 +35,8 @@ form {
   button:disabled {
     background-color: #ccc;
   }
+
+  mat-form-field {
+    margin-right: 12px;
+  }
   

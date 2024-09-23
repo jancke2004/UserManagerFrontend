@@ -23,20 +23,20 @@
   </div>
 
   <div>
-    <label for="addedBy">Added By</label>
-    <input id="addedBy" formControlName="addedBy" />
+    <label for="Added_By">Added By</label>
+    <input id="Added_By" formControlName="Added_By" />
     <!-- AddedBy validation errors  -->
-    <div *ngIf="addedBy?.invalid && (addedBy?.touched || addedBy?.dirty)">
-      <small *ngIf="addedBy?.errors?.['required']">Added By is required.</small>
+    <div *ngIf="Added_By?.invalid && (Added_By?.touched || Added_By?.dirty)">
+      <small *ngIf="Added_By?.errors?.['required']">Added By is required.</small>
     </div>
   </div>
 
   <div>
-    <label for="updatedBy">Updated By</label>
-    <input id="updatedBy" formControlName="updatedBy" />
+    <label for="Updated_By">Updated By</label>
+    <input id="Updated_By" formControlName="Updated_By" />
     <!-- UpdatedBy validation errors  -->
-    <div *ngIf="updatedBy?.invalid && (updatedBy?.touched || updatedBy?.dirty)">
-      <small *ngIf="updatedBy?.errors?.['required']">Updated By is required.</small>
+    <div *ngIf="Updated_By?.invalid && (Updated_By?.touched || Updated_By?.dirty)">
+      <small *ngIf="Updated_By?.errors?.['required']">Updated By is required.</small>
     </div>
   </div>
 

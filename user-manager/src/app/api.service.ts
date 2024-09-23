@@ -41,17 +41,15 @@ export class ApiService {
   }
 
   handleError(error: HttpErrorResponse) {
-    console.error('An error occurred:', error.message); // Log the detailed error message
     let errorMessage = 'An unknown error occurred!';
     if (error.error instanceof ErrorEvent) {
       // Client-side or network error
       errorMessage = `Error: ${error.error.message}`;
     } else {
-      // Backend returned an unsuccessful response code
-      errorMessage = `Error ${error.status}: ${error.error.message || 'Server error'}`;
+      // Backend returned an error response
+      errorMessage = `Error ${error.status}: ${error.error?.error || 'Server error'}`;
     }
     return throwError(() => new Error(errorMessage));
   }
-  
   
 }
